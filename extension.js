@@ -108,12 +108,14 @@ const AltTimeMenuButton = new Lang.Class({
 
 	now.setHours(hour);
 	now.setMinutes(minute);
-	if (this._clock_settings.get_enum('clock-format')) { // 12-Hour
-		var remote_time = Shell.util_format_date('%l:%M %p ', now) + this.tzname;
+    if (this.tzname == 'UTC') { // 24-Hour
+        var time_format = '%R ';
+	} else if (this._clock_settings.get_enum('clock-format')) { // 12-Hour
+        var time_format = '%l:%M %p ';
 	} else { // 24-Hour
-		var remote_time = Shell.util_format_date('%R ', now) + this.tzname;
-	}
-
+        var time_format = '%R ';
+    }
+    var remote_time = Shell.util_format_date(time_format, now) + this.tzname;
 	return remote_time;
     },
 
